@@ -63,6 +63,7 @@ contract ERCHouse is AccessControl
 	function listToken(address sellToken, address buyToken, uint256 amountToSell, uint256 pricePerToken) public
 	{
 		require(tokenWhitelist[sellToken] && tokenWhitelist[buyToken], "Both sell and buy tokens must be whitelisted");
+		ERC20(sellToken).transferFrom(msg.sender, address(this), amountToSell);
         TokenSale memory newSale = TokenSale({seller:payable(msg.sender), sellToken:ERC20(sellToken), buyToken:ERC20(buyToken), 
         	amount:amountToSell, price:pricePerToken});
         listedTokens[listings] = newSale;
@@ -70,9 +71,13 @@ contract ERCHouse is AccessControl
 	}
 
 	// Allows seller of a token to cancel a listing
-	function cancelListing() public
+	function cancelListing(uint256 listingId) public
 	{
-
+		// Give amount of sellToken back to seller
+		TokenSale memory listing = listedTokens[listingId];
+		sellToken.transfer(listing.seller, listing.amount);
+		// Set the listing amount to 0
+		listedTokens[listingId].amount = 0;
 	}
 
 	// Allows a buyer to purchase part or all of a token listing
