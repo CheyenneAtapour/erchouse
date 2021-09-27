@@ -35,15 +35,17 @@ contract ERCHouse is AccessControl
 	}
 
 	// Adds a token to the token whitelist
-	function addToken() public onlyRole(TOKEN_MANAGER)
+	function addToken(address token) public onlyRole(TOKEN_MANAGER)
 	{
-
+		require(!tokenWhitelist[token], "Token already whitelisted");
+		tokenWhitelist[token] = true;
 	}
 
 	// Removes a token from the token whitelist
-	function removeToken() public onlyRole(TOKEN_MANAGER)
+	function removeToken(address token) public onlyRole(TOKEN_MANAGER)
 	{
-
+		require(tokenWhitelist[token], "Token not whitelisted");
+		tokenWhitelist[token] = false;
 	}
 
 	// Allows seller of a token to create a listing
