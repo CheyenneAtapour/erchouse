@@ -60,9 +60,13 @@ contract ERCHouse is AccessControl
 	}
 
 	// Allows seller of a token to create a listing
-	function listToken() public
+	function listToken(address sellToken, address buyToken, uint256 amountToSell, uint256 pricePerToken) public
 	{
-
+		require(tokenWhitelist[sellToken] && tokenWhitelist[buyToken], "Both sell and buy tokens must be whitelisted");
+        TokenSale memory newSale = TokenSale({seller:msg.sender, sellToken:ERC20(sellToken), buyToken:ERC20(buyToken), 
+        	amount:amountToSell, price:pricePerToken});
+        listedTokens[listings] = newSale;
+        listings += 1;
 	}
 
 	// Allows seller of a token to cancel a listing
