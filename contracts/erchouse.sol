@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract ERCHouse is AccessControl
 {
-	address payable superAdmin;
+	address public payable superAdmin;
 
 	struct TokenSale{
 		address payable seller;
