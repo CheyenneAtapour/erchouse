@@ -18,7 +18,9 @@ contract ERCHouse is AccessControl
 		uint256 price;
 	}
 
-	uint256 listings;
+	uint256 public listings;
+	uint256 public registrationFee;
+
 	mapping(uint256 => TokenSale) public listedTokens;
 	mapping(address => bool) public tokenWhitelist;
 
@@ -30,8 +32,17 @@ contract ERCHouse is AccessControl
 	constructor(address payable _superAdmin)
 	{
 		listings = 0;
+		registrationFee = 20000000000000000;
 		_setupRole(DEFAULT_ADMIN_ROLE, _superAdmin);
 		superAdmin = _superAdmin;
+	}
+
+	// Allows adding of a token to the whitelist in exchange for eth
+	function whiteListToken(address token) public payable
+	{
+		require(!tokenWhitelist[token], "Token already whitelisted");
+		require(msg.value == registrationFee, "Must send registration fee of .02 ETH");
+		tokenWhitelist[token] = true;
 	}
 
 	// Adds a token to the token whitelist
