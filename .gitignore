@@ -1,5 +1,16 @@
+.DS_Store
+*.swp
+
 __pycache__
+.pytest_cache
 .history
 .hypothesis/
 build/
 reports/
+env/
+venv/
+node_modules/
+
+OpenZeppelin/
+Uniswap/
+flat.sol
