@@ -71,10 +71,10 @@ contract ERCHouse is AccessControl
 	{
 		require(tokenWhitelist[sellToken] && tokenWhitelist[buyToken], "Both sell and buy tokens must be whitelisted");
 		ERC20(sellToken).transferFrom(msg.sender, address(this), amountToSell);
-        TokenSale memory newSale = TokenSale({seller:payable(msg.sender), sellToken:ERC20(sellToken), buyToken:ERC20(buyToken), 
-        	amount:amountToSell, price:pricePerToken});
-        listedTokens[listings] = newSale;
-        listings += 1;
+        	TokenSale memory newSale = TokenSale({seller:payable(msg.sender), sellToken:ERC20(sellToken), buyToken:ERC20(buyToken), 
+        		amount:amountToSell, price:pricePerToken});
+        	listedTokens[listings] = newSale;
+        	listings += 1;
 	}
 
 	// Allows seller of a token to cancel a listing
